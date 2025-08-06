@@ -13,7 +13,7 @@ This interim version includes a **Goals tab** and **Daily Planner** with local s
 - **Daily Planner** –  
   - Main focus for the day  
   - To‑do list with checkboxes & delete option  
-  - Daily highlight, learned lessons, and gratitude section  
+  - Brain Dump and modd tracker  
   - Data saved by date in localStorage
 - **Responsive Design** – Mobile‑friendly layout using blue `#0033A0` and teal `#00A7B5` theme.
 
