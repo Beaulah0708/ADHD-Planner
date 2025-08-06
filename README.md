@@ -1,4 +1,4 @@
-**Live Demo:** [Click Here]
+**Live Demo:** [Click Here] https://github.com/Beaulah0708/ADHD-Planner/deployments/github-pages   
 
 ## 📌 Overview
 ADHD Planner is a simple, distraction‑free productivity tool designed to help users set goals, plan their day, and track progress effectively.  
