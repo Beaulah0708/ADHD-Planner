@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ADHD Planner - Welcome & Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --blue: #0033A0;
+            --teal: #00A7B5;
+            --teal-dark: #008090;
+            --white: #fff;
+        }
+        body {
+            background: var(--white);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--blue);
+            min-height: 100vh;
+            position: relative;
+        }
+        .bg-blur {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            background: url('images (6).jpeg') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(1.5px) brightness(0.97);
+        }
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255,255,255,0.35);
+            z-index: 1;
+        }
+        .topnav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--blue);
+            padding: 0 24px;
+            height: 60px;
+            position: relative;
+            z-index: 3;
+        }
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: var(--teal);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--white);
+            font-size: 1.2rem;
+            margin-right: 12px;
+        }
+        .navlinks {
+            display: flex;
+            gap: 32px;
+        }
+        .navlinks a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 8px 0;
+        }
+        .navlinks a.active,
+        .navlinks a:focus {
+            border-bottom: 2px solid var(--teal);
+            color: var(--teal);
+        }
+        .navlinks a:hover {
+            color: var(--teal);
+        }
+        .login-btn {
+            background: var(--teal);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            padding: 8px 22px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .login-btn:hover {
+            background: var(--teal-dark);
+        }
+        .welcome-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -40%);
+            min-width: 320px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 4;
+            min-height: 60vh;
+        }
+        .hero-heading {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 2.5rem;
+            color: #0033A0;
+            font-weight: bold;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px #fff, 0 1px 2px #00A7B5;
+        }
+        .hero-subtext {
+            font-size: 1.15rem;
+            color: #007080;
+            margin-bottom: 28px;
+            font-family: cursive, 'Segoe Script', 'Comic Sans MS', sans-serif;
+            font-weight: 600;
+            text-shadow: 0 2px 8px #fff;
+        }
+        .hero-btns {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+        .btn-solid {
+            background: #00A7B5;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-solid:hover {
+            background: #008090;
+        }
+        /* About Page Styles */
+        #aboutPage {
+            display: none;
+            background: #fff;
+            min-height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            z-index: 30;
+        }
+        .about-main {
+            max-width: 900px;
+            margin: 48px auto;
+            padding: 32px 24px;
+            display: flex;
+            gap: 36px;
+            border-radius: 18px;
+            box-shadow: 0 4px 16px rgba(0, 51, 160, 0.08);
+            background: #fff;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .about-heading {
+            color: #0033A0;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 18px;
+        }
+        .about-section-heading {
+            color: #0033A0;
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+        .about-benefits {
+            list-style: disc inside;
+            color: #00A7B5;
+            font-size: 1rem;
+            margin-bottom: 18px;
+            padding-left: 0;
+        }
+        .about-benefits li {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        /* Planner Page */
+        #plannerPage {
+            background-image: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1200&q=80'); /* Example: mountain/goal image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            min-height: 100vh;
+            z-index: 20;
+        }
+        #plannerPage > div {
+            position: relative;
+            z-index: 1;
+        }
+        #plannerPage::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.70); /* Optional: white overlay for readability */
+            z-index: 0;
+        }
+        .planner-tabs {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            justify-content: center;
+        }
+        .planner-tab-btn {
+            background: #00A7B5;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 22px;
+            font-size: 1.08rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,167,181,0.08);
+            transition: background 0.2s;
+            outline: none;
+        }
+        .planner-tab-btn:hover, .planner-tab-btn.active {
+            background: #008090;
+        }
+        #calendarGrid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            width: 100%;
+        }
+        @media (max-width: 900px) {
+            #calendarGrid {
+                grid-template-columns:repeat(2,1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            #calendarGrid {
+                grid-template-columns:1fr;
+            }
+        }
+        .calendar-month-box {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0,51,160,0.07);
+            padding: 18px 10px 12px 10px;
+            margin-bottom: 0;
+            min-width: 0;
+            overflow-x: auto;
+            border: 1px solid #eee;
+        }
+        .calendar-month-title {
+            color: #0033A0;
+            font-size: 1.15rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        .calendar-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.98rem;
+            margin-bottom: 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .calendar-table th {
+            color: #0033A0;
+            background: #e0f7fa;
+            font-weight: bold;
+            padding: 2px 0;
+            font-size: 0.95rem;
+            border-radius: 4px;
+            border-bottom: 1px solid #eee;
+        }
+        .calendar-table td {
+            text-align: center;
+            padding: 2px 0;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            border: 1px solid #f0f0f0;
+        }
+        .calendar-table .sunday {
+            background: #00A7B5;
+            color: #fff;
+            font-weight: bold;
+        }
+        .goal-item {
+            background: #0033A0; /* dark blue */
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,51,160,0.10);
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            position: relative;
+            color: #fff; /* white font */
+        }
+        .goal-title {
+            color: #fff;
+            font-size: 1.08rem;
+            font-weight: bold;
+        }
+        .goal-desc {
+            color: #e0f7fa;
+            font-size: 0.98rem;
+        }
+        /* Optional: make action plan and dates readable on dark background */
+        .goal-item .goal-actionplan,
+        .goal-item .goal-dates {
+            color: #b2ebf2;
+        }
+        .goal-item .goal-challenges,
+        .goal-item .goal-overcome {
+            color: #fff;
+        }
+        .goal-actions button {
+            background: #00A7B5;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 2px 10px;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+        .goal-actions button:hover {
+            background: #0033A0;
+        }
+        .back-btn {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            background: #00A7B5;
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 7px 16px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 100;
+            transition: background 0.2s;
+            box-shadow: 0 2px 8px rgba(0,167,181,0.08);
+            display: inline-block;
+        }
+        .back-btn:hover {
+            background: #008090;
+        }
+        #welcomePage .back-btn { display: none !important; }
+        #goalsTab {
+            background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80'); /* Example: mountain/goal image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            /* Optional: add a dark overlay for readability */
+        }
+        #goalsTab::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,51,160,0.25); /* subtle blue overlay for contrast */
+            border-radius: 18px;
+            z-index: 0;
+        }
+        #goalsTab > * {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-blur"></div>
+    <div class="bg-overlay"></div>
+
+    <div class="topnav">
+        <div class="logo">LOGO</div>
+        <div class="navlinks">
+            <a href="#" id="navWelcome">Home</a>
+            <a href="#" id="navAbout">About</a>
+            <a href="#" id="navPlanner">Planner</a>
+            <a href="#" id="navContact">Contact</a>
+        </div>
+        <div style="display: flex; gap: 6px;">
+            <button class="login-btn" id="signupNavBtn" style="background:var(--teal-dark);">Sign Up</button>
+            <button class="login-btn" id="loginNavBtn">Login</button>
+            <button class="login-btn" id="logoutBtn" style="display:none;">Logout</button>
+        </div>
+    </div>
+
+    <div class="welcome-center" id="welcomePage" style="display:flex;">
+        <h1 class="hero-heading">WELCOME TO YOUR ADHD PLANNER</h1>
+        <div class="hero-subtext">
+            Your journey starts here. Every small step counts!
+        </div>
+        <div class="hero-btns">
+            <button class="btn-solid" id="startBtn">Start Planning</button>
+        </div>
+    </div>
+
+    <!-- START About Page -->
+    <div id="aboutPage" style="display:none; position:relative;">
+        <button class="back-btn" id="aboutBackBtn" type="button">&larr; Back</button>
+        <div class="about-main">
+            <h2 class="about-heading">About This ADHD Planner</h2>
+            <p>This ADHD Planner was created as a solo project during Vibecoding Week, with the goal of supporting employees who may benefit from structured, distraction free planning tools. It is designed to help individuals manage their time, tasks, and routines more effectively—especially those who experience challenges related to focus and organization.</p>
+            <h2 class="about-section-heading">What This Planner Offers</h2>
+            <ul class="about-benefits">
+                <li>A clean, user-friendly interface with minimal distractions</li>
+                <li>Daily task lists and planning tools</li>
+                <li>Motivational messages to encourage progress</li>
+                <li>A focus on simplicity, accessibility, and ease of use</li>
+                <li>Your goals</li>
+                <li>Action Plan</li>
+                <li>Monthly planning</li>
+                <li>Monthly Review</li>
+                <li>Gratitude</li>
+                <li>Weekly Planning</li>
+                <li>Weekly Review</li>
+            </ul>
+            <p>This tool is not a medical solution, but a supportive resource built with empathy and inclusivity in mind. It reflects a personal commitment to mental wellness, neurodiversity, and innovation within our workplace.</p>
+        </div>
+    </div>
+    <!-- END About Page -->
+
+    <!-- START Planner Page -->
+    <div id="plannerPage" style="display:none; background:#fff; min-height:100vh; position:absolute; top:0; left:0; width:100vw; z-index:20;">
+        <button class="back-btn" id="plannerBackBtn" type="button">&larr; Back</button>
+        <div style="max-width:900px; margin:0 auto; padding:32px 16px;">
+            <img src="Lets Do this.jpg" alt="Planner Inspiration" style="width:100%; max-width:500px; display:block; margin:0 auto 24px auto; border-radius:18px; box-shadow:0 2px 8px rgba(0,51,160,0.10);">
+            <h2 style="color:#0033A0; font-size:2rem; font-weight:bold; margin-bottom:24px;">Planner</h2>
+            <div class="planner-tabs">
+                <button id="plannerTabCalendar" class="planner-tab-btn active" type="button">2025 Calendar</button>
+                <button id="plannerTabGoals" class="planner-tab-btn" type="button">Goals</button>
+                <button id="plannerTabDaily" class="planner-tab-btn" type="button">Daily Planner</button>
+                <button id="plannerTabWeekly" class="planner-tab-btn" type="button">Weekly Review</button>
+            </div>
+            <!-- START 2025 Calendar Tab -->
+            <div id="calendarTab" class="planner-tab" style="background:#fff; border-radius:18px; box-shadow:0 4px 16px rgba(0,51,160,0.08); padding:24px; min-height:320px;">
+                <h3 style="color:#0033A0; font-size:1.5rem; font-weight:bold; margin-bottom:18px; text-align:center;">2025 Calendar</h3>
+                <div id="calendarGrid"></div>
+            </div>
+            <!-- END 2025 Calendar Tab -->
+            <!-- START Goals Tab -->
+            <div id="goalsTab" class="planner-tab" style="display:none; background:#fff; border-radius:18px; box-shadow:0 4px 16px rgba(0,51,160,0.08); padding:24px; min-height:320px;">
+                <h3 style="color:#0033A0; font-size:1.5rem; font-weight:bold; margin-bottom:18px; text-align:center;">Your Goals</h3>
+                <form id="goalsForm" style="margin-bottom:24px;">
+                    <div style="display:flex; flex-wrap:wrap; gap:16px;">
+                        <input type="text" id="goalTitle" placeholder="Goal Title" style="flex:2; min-width:140px; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;">
+                        <input type="text" id="goalDesc" placeholder="Short Description (optional)" style="flex:2; min-width:120px; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;">
+                        <input type="text" id="goalActionPlan" placeholder="Action Plan" style="flex:3; min-width:120px; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;">
+                    </div>
+                    <div style="display:flex; flex-wrap:wrap; gap:16px; margin-top:12px;">
+                        <input type="date" id="goalStartDate" placeholder="Start Date" style="flex:1; min-width:120px; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;">
+                        <input type="date" id="goalDueDate" placeholder="Due Date" style="flex:1; min-width:120px; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;">
+                    </div>
+                    <div style="display:flex; flex-wrap:wrap; gap:16px; margin-top:12px;">
+                        <input type="text" id="goalChallenges" placeholder="Possible Challenges" style="flex:2; min-width:120px; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;">
+                        <input type="text" id="goalOvercome" placeholder="How to Overcome" style="flex:2; min-width:120px; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;">
+                    </div>
+                    <div style="margin-top:12px;">
+                        <button type="submit" class="planner-tab-btn" style="padding:10px 18px; min-width:120px;">Add Goal</button>
+                    </div>
+                </form>
+                <div id="goalsList" style="margin-top:12px;">
+                    <!-- Goals will be injected by JS -->
+                </div>
+            </div>
+            <!-- END Goals Tab -->
+
+            <!-- START Daily Planner Tab -->
+<div id="dailyPlannerTab" class="planner-tab" style="display:none; background:#fff; border-radius:18px; box-shadow:0 4px 16px rgba(0,51,160,0.08); padding:24px; min-height:320px;">
+    <h3 style="color:#0033A0; display:flex; align-items:center; gap:18px;">
+        To‑Do List
+        <span id="todoDate" style="font-size:1rem; color:#00A7B5; font-weight:normal;"></span>
+    </h3>
+    <form id="todoInputForm" style="display:flex; gap:10px; margin-bottom:10px; align-items:center;">
+        <select id="taskIcon" style="border-radius:6px; border:1px solid #00A7B5; padding:4px;">
+            <option value="">📝</option>
+            <option value="🧹">🧹</option>
+            <option value="📞">📞</option>
+            <option value="💻">💻</option>
+            <option value="🏃">🏃</option>
+            <option value="🛒">🛒</option>
+        </select>
+        <input type="text" id="newTaskInput" placeholder="Add a new task"
+            style="flex:1; padding:8px; border:1px solid #00A7B5; border-radius:6px;">
+        <button id="addTaskBtn" type="submit"
+            style="background:#00A7B5; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer;">
+            Add Task
+        </button>
+    </form>
+    <div id="dailyTaskList"></div>
+    <!-- Place this after <div id="dailyTaskList"></div> in #dailyPlannerTab -->
+    <div id="eisenhowerMatrix" style="margin-top:32px;">
+        <h3 style="color:#0033A0; text-align:center; margin-bottom:12px;">Eisenhower Matrix</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:8px; max-width:600px; margin:0 auto;">
+            <div style="border:2px solid #b2dfdb; border-radius:10px; background:#f8ffff; padding:12px; min-height:90px;">
+                <div style="font-weight:bold; color:#008090; margin-bottom:4px;">Urgent & Important<br><span style="font-size:0.95em; color:#888;">Do This Now</span></div>
+                <textarea id="matrix-do-now" placeholder="Tasks to do now..." style="width:100%; min-height:50px; border-radius:6px; border:1px solid #00A7B5; padding:6px; font-size:1rem;"></textarea>
+            </div>
+            <div style="border:2px solid #ffe0b2; border-radius:10px; background:#fffdf8; padding:12px; min-height:90px;">
+                <div style="font-weight:bold; color:#e67e22; margin-bottom:4px;">Not Urgent & Important<br><span style="font-size:0.95em; color:#888;">Do This Later</span></div>
+                <textarea id="matrix-do-later" placeholder="Tasks to do later..." style="width:100%; min-height:50px; border-radius:6px; border:1px solid #00A7B5; padding:6px; font-size:1rem;"></textarea>
+            </div>
+            <div style="border:2px solid #b2dfdb; border-radius:10px; background:#f8ffff; padding:12px; min-height:90px;">
+                <div style="font-weight:bold; color:#008090; margin-bottom:4px;">Urgent & Not Important<br><span style="font-size:0.95em; color:#888;">Delegate This</span></div>
+                <textarea id="matrix-delegate" placeholder="Tasks to delegate..." style="width:100%; min-height:50px; border-radius:6px; border:1px solid #00A7B5; padding:6px; font-size:1rem;"></textarea>
+            </div>
+            <div style="border:2px solid #ffe0b2; border-radius:10px; background:#fffdf8; padding:12px; min-height:90px;">
+                <div style="font-weight:bold; color:#e67e22; margin-bottom:4px;">Not Urgent & Not Important<br><span style="font-size:0.95em; color:#888;">Delete This</span></div>
+                <textarea id="matrix-delete" placeholder="Tasks to delete..." style="width:100%; min-height:50px; border-radius:6px; border:1px solid #00A7B5; padding:6px; font-size:1rem;"></textarea>
+            </div>
+        </div>
+    </div>
+    <!-- Brain Dump and Mood Tracker side by side -->
+    <div style="display:flex; gap:32px; align-items:flex-start; margin-top:32px;">
+        <!-- Brain Dump -->
+        <div id="brainDumpBox" style="max-width:500px; flex:2;">
+            <label style="color:#0033A0; font-weight:bold; font-size:1.1rem;">Brain Dump</label>
+            <div id="brainDumpList" style="margin-top:10px;">
+                <!-- Brain dump items will appear here -->
+            </div>
+            <form id="brainDumpForm" style="display:flex; gap:8px; margin-top:10px;">
+                <input type="text" id="brainDumpInput" placeholder="Add a thought..." style="flex:1; padding:8px; border-radius:6px; border:1px solid #00A7B5;">
+                <button type="submit" style="background:#00A7B5; color:#fff; border:none; border-radius:6px; padding:8px 16px; font-weight:bold; cursor:pointer;">Add</button>
+            </form>
+        </div>
+        <!-- Mood Tracker -->
+        <div id="moodTrackerBox" style="flex:1; min-width:160px;">
+            <label style="color:#0033A0; font-weight:bold; font-size:1.1rem;">Today's Mood</label>
+            <div id="moodTracker" style="margin-top:10px; display:flex; gap:10px;">
+                <button type="button" data-mood="😀" style="font-size:1.7rem; background:none; border:none; cursor:pointer;">😀</button>
+                <button type="button" data-mood="🙂" style="font-size:1.7rem; background:none; border:none; cursor:pointer;">🙂</button>
+                <button type="button" data-mood="😐" style="font-size:1.7rem; background:none; border:none; cursor:pointer;">😐</button>
+                <button type="button" data-mood="😔" style="font-size:1.7rem; background:none; border:none; cursor:pointer;">😔</button>
+                <button type="button" data-mood="😡" style="font-size:1.7rem; background:none; border:none; cursor:pointer;">😡</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END Daily Planner Tab -->
+
+            <!-- START Weekly Review Tab -->
+            <div id="weeklyReviewTab" class="planner-tab" style="display:none; background:#fff; border-radius:18px; box-shadow:0 4px 16px rgba(0,51,160,0.08); padding:24px; min-height:320px;">
+                <h3 style="color:#0033A0; font-size:1.5rem; font-weight:bold; margin-bottom:18px; text-align:center;">Weekly Review</h3>
+                <form id="weeklyReviewForm" autocomplete="off">
+                    <div style="margin-bottom:18px;">
+                        <label style="color:#0033A0; font-weight:bold;">Things That Went Well</label>
+                        <input type="text" id="well1" placeholder="Thing 1" style="width:100%; margin-bottom:8px; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;">
+                        <input type="text" id="well2" placeholder="Thing 2" style="width:100%; margin-bottom:8px; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;">
+                        <input type="text" id="well3" placeholder="Thing 3" style="width:100%; margin-bottom:8px; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;">
+                    </div>
+                    <div style="margin-bottom:18px;">
+                        <textarea id="improve" placeholder="1 Thing to Improve" rows="2" style="width:100%; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;"></textarea>
+                    </div>
+                    <div style="margin-bottom:18px;">
+                        <textarea id="actionPlan" placeholder="Action Plan for Improvement" rows="2" style="width:100%; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;"></textarea>
+                    </div>
+                </form>
+            </div>
+            <!-- END Weekly Review Tab -->
+        </div>
+    </div>
+    <!-- END Planner Page -->
+
+    <!-- START Contact Page -->
+    <div id="contactPage" style="display:none; background:#fff; min-height:100vh; position:absolute; top:0; left:0; width:100vw; z-index:20;">
+        <button class="back-btn" id="contactBackBtn" type="button">&larr; Back</button>
+        <div style="max-width:600px; margin:60px auto 0 auto; background:#fff; border-radius:18px; box-shadow:0 4px 16px rgba(0,51,160,0.08); padding:32px 24px;">
+            <h2 style="color:#0033A0; font-size:2rem; font-weight:bold; margin-bottom:24px;">Contact</h2>
+            <p style="font-size:1.1rem;">For questions or feedback, please contact us at <a href="mailto:support@example.com" style="color:#00A7B5;">support@example.com</a>.</p>
+        </div>
+    </div>
+    <!-- END Contact Page -->
+
+    <!-- START Signup Page -->
+    <div id="signupPage" style="display:none; background:#fff; min-height:100vh; position:absolute; top:0; left:0; width:100vw; z-index:30;">
+        <button class="back-btn" id="signupBackBtn" type="button">&larr; Back</button>
+        <form id="signupForm" style="max-width:340px; margin:60px auto 0 auto; background:#fff; border-radius:18px; box-shadow:0 4px 16px rgba(0,51,160,0.08); padding:32px 24px; display:flex; flex-direction:column; gap:18px;">
+            <h2 style="color:#0033A0; text-align:center; font-size:1.5rem; font-weight:bold;">Sign Up</h2>
+            <input type="text" id="signupName" placeholder="Full Name" required style="padding:12px; border-radius:8px; border:1px solid #e0e0e0; font-size:1rem; box-shadow:0 2px 8px rgba(0,51,160,0.04);">
+            <input type="email" id="signupEmail" placeholder="Email" required style="padding:12px; border-radius:8px; border:1px solid #e0e0e0; font-size:1rem; box-shadow:0 2px 8px rgba(0,51,160,0.04);">
+            <input type="password" id="signupPassword" placeholder="Password" required style="padding:12px; border-radius:8px; border:1px solid #e0e0e0; font-size:1rem; box-shadow:0 2px 8px rgba(0,51,160,0.04);">
+            <button type="submit" style="background:#00A7B5; color:#fff; border:none; border-radius:8px; padding:12px; font-size:1.08rem; font-weight:bold; box-shadow:0 2px 8px rgba(0,167,181,0.08); cursor:pointer; transition:background 0.2s;">Create Account</button>
+            <div id="signupError" style="color:#c00; text-align:center; font-size:1rem; display:none;"></div>
+        </form>
+    </div>
+    <!-- END Signup Page -->
+
+    <!-- START Login Page -->
+    <div id="loginPage" style="display:none; background:#fff; min-height:100vh; position:absolute; top:0; left:0; width:100vw; z-index:30;">
+        <button class="back-btn" id="loginBackBtn" type="button">&larr; Back</button>
+        <form id="loginForm" style="max-width:340px; margin:60px auto 0 auto; background:#fff; border-radius:18px; box-shadow:0 4px 16px rgba(0,51,160,0.08); padding:32px 24px; display:flex; flex-direction:column; gap:18px;">
+            <h2 style="color:#0033A0; text-align:center; font-size:1.5rem; font-weight:bold;">Log In</h2>
+            <input type="email" id="loginEmail" placeholder="Email" required style="padding:12px; border-radius:8px; border:1px solid #e0e0e0; font-size:1rem; box-shadow:0 2px 8px rgba(0,51,160,0.04);">
+            <input type="password" id="loginPassword" placeholder="Password" required style="padding:12px; border-radius:8px; border:1px solid #e0e0e0; font-size:1rem; box-shadow:0 2px 8px rgba(0,51,160,0.04);">
+            <label style="display:flex; align-items:center; gap:8px; margin-bottom:0; font-size:1rem;">
+                <input type="checkbox" id="rememberMe" style="accent-color:#00A7B5; width:18px; height:18px; margin:0;">
+                Remember Me
+            </label>
+            <button type="submit" style="background:#00A7B5; color:#fff; border:none; border-radius:8px; padding:12px; font-size:1.08rem; font-weight:bold; box-shadow:0 2px 8px rgba(0,167,181,0.08); cursor:pointer; transition:background 0.2s;">Log In</button>
+            <div id="loginError" style="color:#c00; text-align:center; font-size:1rem; display:none;"></div>
+        </form>
+    </div>
+    <!-- END Login Page -->
+
+    <script>
+// --- Main App Logic ---
+document.addEventListener('DOMContentLoaded', function () {
+    // --- Navigation ---
+    let previousPage = 'welcomePage';
+
+    function setActiveNav(idx) {
+        document.querySelectorAll('.navlinks a').forEach(function(tab, i) {
+            tab.classList.toggle('active', i === idx);
+        });
+    }
+
+    function showPage(pageId) {
+        // Store previous page before switching
+        if (pageId !== previousPage) {
+            let visible = Array.from(document.querySelectorAll('body > div, body > .welcome-center, body > main > div'))
+                .find(div => div.style.display !== 'none' && div.id && div.id !== pageId);
+            previousPage = visible ? visible.id : previousPage;
+        }
+        [
+            'welcomePage', 'aboutPage', 'plannerPage', 'contactPage',
+            'signupPage', 'loginPage'
+        ].forEach(id => {
+            let el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
+        let showEl = document.getElementById(pageId);
+        if (showEl) showEl.style.display = (pageId === 'welcomePage') ? 'flex' : 'block';
+
+        // Show/hide logout button
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.style.display = (localStorage.getItem('userLoggedIn') === 'true') ? 'inline-block' : 'none';
+        }
+    }
+
+    // --- Nav bar event listeners ---
+    document.getElementById('navWelcome').onclick = function(e) {
+        e.preventDefault();
+        setActiveNav(0);
+        showPage('welcomePage');
+    };
+    document.getElementById('navAbout').onclick = function(e) {
+        e.preventDefault();
+        setActiveNav(1);
+        showPage('aboutPage');
+    };
+    document.getElementById('navContact').onclick = function(e) {
+        e.preventDefault();
+        setActiveNav(3);
+        showPage('contactPage');
+    };
+
+    // --- Planner & Start Planning button logic ---
+    function plannerNavLogic(e) {
+        if (e) e.preventDefault();
+        const registered = !!localStorage.getItem('userRegistered');
+        const loggedIn = !!localStorage.getItem('userLoggedIn');
+        if (!registered) {
+            showPage('signupPage');
+        } else if (!loggedIn) {
+            showPage('loginPage');
+        } else {
+            setActiveNav(2);
+            showPage('plannerPage');
+            showPlannerTab('calendar');
+        }
+    }
+    document.getElementById('navPlanner').onclick = plannerNavLogic;
+    var startBtn = document.getElementById('startBtn');
+    if (startBtn) startBtn.onclick = plannerNavLogic;
+
+    // --- Top right Sign Up & Login buttons ---
+    document.getElementById('signupNavBtn').onclick = function(e) {
+        e.preventDefault();
+        showPage('signupPage');
+    };
+    document.getElementById('loginNavBtn').onclick = function(e) {
+        e.preventDefault();
+        showPage('loginPage');
+    };
+
+    // --- Back Button ---
+    [
+        'aboutBackBtn', 'plannerBackBtn', 'contactBackBtn',
+        'signupBackBtn', 'loginBackBtn'
+    ].forEach(function(id) {
+        let btn = document.getElementById(id);
+        if (btn) {
+            btn.onclick = function() {
+                if (previousPage === 'loginPage' || previousPage === 'signupPage') {
+                    showPage('welcomePage');
+                } else {
+                    showPage(previousPage);
+                }
+            };
+        }
+    });
+
+    // --- Logout Button ---
+    var logoutBtn = document.getElementById('logoutBtn');
+    if (!logoutBtn) {
+        logoutBtn = document.createElement('button');
+        logoutBtn.id = 'logoutBtn';
+        logoutBtn.textContent = 'Logout';
+        logoutBtn.className = 'login-btn';
+        logoutBtn.style.display = 'none';
+        logoutBtn.style.marginLeft = '12px';
+        document.querySelector('.topnav > div:last-child').appendChild(logoutBtn);
+    }
+    function updateLogoutBtn() {
+        logoutBtn.style.display = (localStorage.getItem('userLoggedIn') === 'true') ? 'inline-block' : 'none';
+    }
+    updateLogoutBtn();
+
+    logoutBtn.onclick = function() {
+        localStorage.removeItem('userLoggedIn');
+        alert('You have been logged out.');
+        setActiveNav(0);
+        showPage('welcomePage');
+        updateLogoutBtn();
+    };
+
+    // --- Sign Up ---
+    document.getElementById('signupForm').onsubmit = function(e) {
+        e.preventDefault();
+        const name = document.getElementById('signupName').value.trim();
+        const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+        const pass = document.getElementById('signupPassword').value.trim();
+        const errorDiv = document.getElementById('signupError');
+        errorDiv.style.display = 'none';
+        if (name && email && pass) {
+            // Store normalized email and password
+            localStorage.setItem('userRegistered', 'true');
+            localStorage.setItem('userName', name);
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userPass', pass);
+            showPage('loginPage');
+        } else {
+            errorDiv.textContent = 'Please fill in all fields.';
+            errorDiv.style.display = 'block';
+        }
+    };
+
+    // --- Login ---
+    document.getElementById('loginForm').onsubmit = function(e) {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+        const pass = document.getElementById('loginPassword').value.trim();
+        const rememberMe = document.getElementById('rememberMe').checked;
+        const errorDiv = document.getElementById('loginError');
+        errorDiv.style.display = 'none';
+
+        // Compare normalized email and password
+        const storedEmail = (localStorage.getItem('userEmail') || '').trim().toLowerCase();
+        const storedPass = (localStorage.getItem('userPass') || '').trim();
+
+        if (email === storedEmail && pass === storedPass) {
+            localStorage.setItem('userLoggedIn', 'true'); // Always set userLoggedIn on successful login
+            setActiveNav(2);
+            showPage('plannerPage');
+            showPlannerTab('calendar');
+            updateLogoutBtn();
+        } else {
+            alert('Invalid email or password.');
+        }
+    };
+
+    // --- Auto-login if Remember Me is set ---
+    setActiveNav(0);
+showPage('welcomePage');
+updateLogoutBtn();
+
+
+    // --- Planner Tabs ---
+    function showPlannerTab(tabName) {
+        // Hide all planner tabs
+        ['calendarTab', 'goalsTab', 'dailyPlannerTab', 'weeklyReviewTab'].forEach(id => {
+            let el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
+        // Remove .active from all tab buttons
+        ['plannerTabCalendar', 'plannerTabGoals', 'plannerTabDaily', 'plannerTabWeekly'].forEach(id => {
+            let btn = document.getElementById(id);
+            if (btn) btn.classList.remove('active');
+        });
+
+        // Show correct tab and set .active
+        if (tabName === 'calendar') {
+            document.getElementById('calendarTab').style.display = 'block';
+            document.getElementById('plannerTabCalendar').classList.add('active');
+            render2025Calendar();
+        } else if (tabName === 'goals') {
+            document.getElementById('goalsTab').style.display = 'block';
+            document.getElementById('plannerTabGoals').classList.add('active');
+            renderGoals();
+        } else if (tabName === 'dailyPlanner') {
+            document.getElementById('dailyPlannerTab').style.display = 'block';
+            document.getElementById('plannerTabDaily').classList.add('active');
+            loadDailyPlanner();
+        } else if (tabName === 'weeklyReview') {
+            document.getElementById('weeklyReviewTab').style.display = 'block';
+            document.getElementById('plannerTabWeekly').classList.add('active');
+            loadWeeklyReview();
+        }
+    }
+    window.showPlannerTab = showPlannerTab;
+
+    document.getElementById('plannerTabCalendar').onclick = function() {
+        showPlannerTab('calendar');
+    };
+    document.getElementById('plannerTabGoals').onclick = function() {
+        showPlannerTab('goals');
+    };
+    document.getElementById('plannerTabDaily').onclick = function() {
+        showPlannerTab('dailyPlanner');
+    };
+    document.getElementById('plannerTabWeekly').onclick = function() {
+        showPlannerTab('weeklyReview');
+    };
+
+    // --- Goals logic ---
+    function getGoals() {
+        try { return JSON.parse(localStorage.getItem('plannerGoals')) || []; }
+        catch { return []; }
+    }
+    function saveGoals(goals) {
+        localStorage.setItem('plannerGoals', JSON.stringify(goals));
+    }
+    function renderGoals() {
+        const goals = getGoals();
+        let html = '';
+        if (goals.length === 0) {
+            html = `<div style="color:#008090; text-align:center; margin-top:24px;">No goals yet. Add your first goal above!</div>`;
+        } else {
+            goals.forEach((goal, idx) => {
+                html += `<div class="goal-item">
+                    <div class="goal-title">${goal.title}</div>
+                    ${goal.desc ? `<div class="goal-desc">${goal.desc}</div>` : ''}
+                    ${goal.actionPlan ? `<div style="color:#00A7B5; font-size:0.97rem; margin-top:2px;">${goal.actionPlan}</div>` : ''}
+                    ${(goal.startDate || goal.dueDate) ? `
+                        <div style="color:#00A7B5; font-size:0.93rem; margin-top:2px;">
+                            ${goal.startDate ? `Start: ${goal.startDate}` : ''}${goal.startDate && goal.dueDate ? ' &nbsp;|&nbsp; ' : ''}${goal.dueDate ? `Due: ${goal.dueDate}` : ''}
+                        </div>
+                    ` : ''}
+                    ${goal.challenges ? `<div class="goal-challenges" style="font-size:0.95rem; margin-top:2px;"><b>Possible Challenges:</b> ${goal.challenges}</div>` : ''}
+                    ${goal.overcome ? `<div class="goal-overcome" style="font-size:0.95rem; margin-top:2px;"><b>How to Overcome:</b> ${goal.overcome}</div>` : ''}
+                    <div class="goal-actions">
+                        <button onclick="editGoal(${idx})">Edit</button>
+                        <button onclick="deleteGoal(${idx})">Delete</button>
+                    </div>
+                </div>`;
+            });
+        }
+        document.getElementById('goalsList').innerHTML = html;
+    }
+    window.renderGoals = renderGoals;
+
+    document.getElementById('goalsForm').onsubmit = function(e) {
+        e.preventDefault();
+        const title = document.getElementById('goalTitle').value.trim();
+        const desc = document.getElementById('goalDesc').value.trim();
+        const actionPlan = document.getElementById('goalActionPlan').value.trim();
+        const startDate = document.getElementById('goalStartDate').value;
+        const dueDate = document.getElementById('goalDueDate').value;
+        const challenges = document.getElementById('goalChallenges').value.trim();
+        const overcome = document.getElementById('goalOvercome').value.trim();
+        if (!title) {
+            alert('Please enter a goal title.');
+            return;
+        }
+        const goals = getGoals();
+        goals.push({ title, desc, actionPlan, startDate, dueDate, challenges, overcome });
+        saveGoals(goals);
+        document.getElementById('goalTitle').value = '';
+        document.getElementById('goalDesc').value = '';
+        document.getElementById('goalActionPlan').value = '';
+        document.getElementById('goalStartDate').value = '';
+        document.getElementById('goalDueDate').value = '';
+        document.getElementById('goalChallenges').value = '';
+        document.getElementById('goalOvercome').value = '';
+        renderGoals();
+    };
+
+    window.editGoal = function(idx) {
+        const goals = getGoals();
+        const goal = goals[idx];
+        document.getElementById('goalTitle').value = goal.title;
+        document.getElementById('goalDesc').value = goal.desc;
+        document.getElementById('goalActionPlan').value = goal.actionPlan || '';
+        document.getElementById('goalStartDate').value = goal.startDate || '';
+        document.getElementById('goalDueDate').value = goal.dueDate || '';
+        document.getElementById('goalChallenges').value = goal.challenges || '';
+        document.getElementById('goalOvercome').value = goal.overcome || '';
+        goals.splice(idx, 1);
+        saveGoals(goals);
+        renderGoals();
+    };
+
+    // Delete logic remains unchanged
+    window.deleteGoal = function(idx) {
+        const goals = getGoals();
+        goals.splice(idx, 1);
+        saveGoals(goals);
+        renderGoals();
+    };
+
+    // --- Calendar logic ---
+    function render2025Calendar() {
+        const monthNames = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const daysShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        let html = '';
+        for (let m = 0; m < 12; m++) {
+            html += `<div class="calendar-month-box">
+                <div class="calendar-month-title">${monthNames[m]}</div>
+                <table class="calendar-table">
+                    <thead>
+                        <tr>${daysShort.map(d => `<th>${d}</th>`).join('')}</tr>
+                    </thead>
+                    <tbody>`;
+            let firstDay = new Date(2025, m, 1).getDay();
+            let daysInMonth = new Date(2025, m + 1, 0).getDate();
+            let day = 1;
+            for (let w = 0; w < 6; w++) {
+                let row = '<tr>';
+                for (let d = 0; d < 7; d++) {
+                    if (w === 0 && d < firstDay) {
+                        row += `<td></td>`;
+                    } else if (day > daysInMonth) {
+                        row += `<td></td>`;
+                    } else {
+                        let sundayClass = (d === 0) ? 'sunday' : '';
+                        row += `<td class="${sundayClass}">${day}</td>`;
+                        day++;
+                    }
+                }
+                row += '</tr>';
+                html += row;
+                if (day > daysInMonth) break;
+            }
+            html += `</tbody></table></div>`;
+        }
+        document.getElementById('calendarGrid').innerHTML = html;
+    }
+    window.render2025Calendar = render2025Calendar;
+
+    // --- Daily Planner logic ---
+    function getTodayKey() {
+        const d = new Date();
+        return 'dailyPlanner_' + d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    }
+
+    function saveDailyPlanner(todosOverride) {
+        const key = getTodayKey();
+        let data = {};
+        try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
+        // Save other fields if needed
+        if (Array.isArray(todosOverride)) {
+            data.todos = todosOverride;
+        }
+        localStorage.setItem(key, JSON.stringify(data));
+    }
+
+    function loadDailyPlanner() {
+        updateTodoDate();
+        const key = getTodayKey();
+        let data = {};
+        try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
+        // Load fields if present
+        if (document.getElementById('mainFocus')) document.getElementById('mainFocus').value = data.mainFocus || '';
+        if (document.getElementById('highlight')) document.getElementById('highlight').value = data.highlight || '';
+        if (document.getElementById('learned')) document.getElementById('learned').value = data.learned || '';
+        if (document.getElementById('gratitude')) document.getElementById('gratitude').value = data.gratitude || '';
+        renderTodos(data.todos || []);
+        loadBrainDump();
+    loadMood(); 
+    }
+
+    function renderTodos(todos) {
+    const list = document.getElementById('dailyTaskList');
+    if (!list) return;
+    list.innerHTML = '';
+    todos.forEach(function(task, idx) {
+        const row = document.createElement('div');
+        row.className = 'todo-item';
+        row.draggable = true;
+        row.dataset.idx = idx;
+        row.style.display = 'flex';
+        row.style.alignItems = 'center';
+        row.style.gap = '8px';
+        row.style.marginBottom = '8px';
+        row.style.background = '#e0f7fa';
+        row.style.borderRadius = '8px';
+        row.style.padding = '8px 10px';
+        // Icon
+if (task.icon) {
+    const iconSpan = document.createElement('span');
+    iconSpan.textContent = task.icon;
+    iconSpan.style.fontSize = '1.3rem';
+    row.appendChild(iconSpan);
+}
+
+        // Drag events
+        row.ondragstart = function(e) {
+            e.dataTransfer.setData('text/plain', idx);
+        };
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = !!task.done;
+        checkbox.style.width = '18px';
+        checkbox.style.height = '18px';
+        checkbox.style.accentColor = '#00A7B5';
+
+        const span = document.createElement('span');
+        span.textContent = task.text;
+        span.style.flex = '1';
+        span.style.fontSize = '1rem';
+        span.style.color = task.done ? '#888' : '#0033A0';
+        span.style.textDecoration = task.done ? 'line-through' : 'none';
+        span.style.opacity = task.done ? '0.7' : '1';
+
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.innerHTML = '✕';
+        delBtn.setAttribute('aria-label', 'Delete Task');
+        delBtn.className = 'delete-btn planner-tab-btn';
+        delBtn.style.background = '#00A7B5';
+        delBtn.style.color = '#fff';
+        delBtn.style.borderRadius = '6px';
+        delBtn.style.padding = '2px 12px';
+        delBtn.style.fontSize = '1.1rem';
+        delBtn.style.fontWeight = 'bold';
+        delBtn.style.border = 'none';
+        delBtn.style.cursor = 'pointer';
+
+        // Checkbox toggle logic
+        checkbox.onchange = function() {
+            todos[idx].done = this.checked;
+            saveDailyPlanner(todos);
+            span.style.textDecoration = this.checked ? 'line-through' : 'none';
+            span.style.color = this.checked ? '#888' : '#0033A0';
+            span.style.opacity = this.checked ? '0.7' : '1';
+        };
+
+        // Delete logic
+        delBtn.onclick = function() {
+            todos.splice(idx,1);
+            saveDailyPlanner(todos);
+            renderTodos(todos);
+        };
+
+        row.appendChild(checkbox);
+        row.appendChild(span);
+        row.appendChild(delBtn);
+        list.appendChild(row);
+    });
+    }
+    // Add Task form handler for Daily Planner
+var todoForm = document.getElementById('todoInputForm');
+if (todoForm) {
+    todoForm.onsubmit = function(e) {
+        e.preventDefault();
+        const input = document.getElementById('newTaskInput');
+        const icon = document.getElementById('taskIcon').value;
+        const text = input.value.trim();
+        if (!text) return;
+        const key = getTodayKey();
+        let data = {};
+        try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
+        if (!Array.isArray(data.todos)) data.todos = [];
+        data.todos.push({text: text, done: false, icon: icon});
+        localStorage.setItem(key, JSON.stringify(data));
+        input.value = '';
+        document.getElementById('taskIcon').value = '';
+        loadDailyPlanner();
+    };
+}
+// --- Brain Dump logic ---
+function saveBrainDump(items) {
+    const key = getTodayKey();
+    let data = {};
+    try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
+    data.brainDump = items;
+    localStorage.setItem(key, JSON.stringify(data));
+}
+
+function loadBrainDump() {
+    const key = getTodayKey();
+    let data = {};
+    try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
+    renderBrainDump(Array.isArray(data.brainDump) ? data.brainDump : []);
+}
+
+function renderBrainDump(items) {
+    const list = document.getElementById('brainDumpList');
+    if (!list) return;
+    list.innerHTML = '';
+    items.forEach((item, idx) => {
+        const wrapper = document.createElement('div');
+        wrapper.style.display = 'flex';
+        wrapper.style.alignItems = 'center';
+        wrapper.style.gap = '8px';
+        wrapper.style.marginBottom = '6px';
+
+        // Radio-style bullet
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.disabled = true;
+        radio.style.accentColor = '#00A7B5';
+
+        // Text
+        const span = document.createElement('span');
+        span.textContent = item;
+        span.style.flex = '1';
+        span.style.fontSize = '1rem';
+
+        // Delete button
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.innerHTML = '✕';
+        delBtn.setAttribute('aria-label', 'Delete');
+        delBtn.style.background = '#00A7B5';
+        delBtn.style.color = '#fff';
+        delBtn.style.border = 'none';
+        delBtn.style.borderRadius = '6px';
+        delBtn.style.padding = '2px 10px';
+        delBtn.style.fontSize = '1rem';
+        delBtn.style.cursor = 'pointer';
+        delBtn.onclick = function() {
+            items.splice(idx, 1);
+            saveBrainDump(items);
+            renderBrainDump(items);
+        };
+
+        wrapper.appendChild(radio);
+        wrapper.appendChild(span);
+        wrapper.appendChild(delBtn);
+        list.appendChild(wrapper);
+    });
+}
+
+// Add handler for adding brain dump items
+var brainDumpForm = document.getElementById('brainDumpForm');
+if (brainDumpForm) {
+    brainDumpForm.onsubmit = function(e) {
+        e.preventDefault();
+        const input = document.getElementById('brainDumpInput');
+        const text = input.value.trim();
+        if (!text) return;
+        const key = getTodayKey();
+        let data = {};
+        try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
+        if (!Array.isArray(data.brainDump)) data.brainDump = [];
+        data.brainDump.push(text);
+        localStorage.setItem(key, JSON.stringify(data));
+        input.value = '';
+        loadBrainDump();
+    };
+}
+// --- Mood Tracker logic ---
+function saveMood(mood) {
+    const key = getTodayKey();
+    let data = {};
+    try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
+    data.mood = mood;
+    localStorage.setItem(key, JSON.stringify(data));
+    document.getElementById('selectedMood').textContent = mood;
+}
+function loadMood() {
+    const key = getTodayKey();
+    let data = {};
+    try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
+    document.getElementById('selectedMood').textContent = data.mood || '';
+}
+document.querySelectorAll('#moodTracker button').forEach(btn => {
+    btn.onclick = function() { saveMood(this.dataset.mood); };
+});
+// --- Weekly Review logic ---
+function getWeekKey() {
+    const d = new Date();
+    // ISO week number
+    const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        const dayNum = date.getUTCDay() || 7;
+        date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+        const yearStart = new Date(Date.UTC(date.getUTCFullYear(),0,1));
+        const weekNum = Math.ceil((((date - yearStart) / 86400000) + 1)/7);
+        return 'weeklyReview_' + date.getUTCFullYear() + '_W' + weekNum;
+    }
+    function saveWeeklyReview() {
+        const key = getWeekKey();
+        const data = {
+            well1: document.getElementById('well1').value,
+            well2: document.getElementById('well2').value,
+            well3: document.getElementById('well3').value,
+            improve: document.getElementById('improve').value,
+            actionPlan: document.getElementById('actionPlan').value
+        };
+        localStorage.setItem(key, JSON.stringify(data));
+    }
+    function loadWeeklyReview() {
+        const key = getWeekKey();
+        let data = {};
+        try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
+        document.getElementById('well1').value = data.well1 || '';
+        document.getElementById('well2').value = data.well2 || '';
+        document.getElementById('well3').value = data.well3 || '';
+        document.getElementById('improve').value = data.improve || '';
+        document.getElementById('actionPlan').value = data.actionPlan || '';
+    }
+    // Auto-save on input/textarea change
+    ['well1','well2','well3','improve','actionPlan'].forEach(id=>{
+        document.getElementById(id).addEventListener('input', saveWeeklyReview);
+    });
+    document.getElementById('weeklyReviewForm').onsubmit = function(e) {
+        e.preventDefault();
+        saveWeeklyReview();
+    };
+
+    // --- Eisenhower Matrix logic ---
+    function getTodayMatrixKey() {
+        const d = new Date();
+        return 'eisenhowerMatrix_' + d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    }
+    function saveMatrix() {
+        const key = getTodayMatrixKey();
+        const data = {
+            doNow: document.getElementById('matrix-do-now').value,
+            doLater: document.getElementById('matrix-do-later').value,
+            delegate: document.getElementById('matrix-delegate').value,
+            delete: document.getElementById('matrix-delete').value
+        };
+        localStorage.setItem(key, JSON.stringify(data));
+    }
+    function loadMatrix() {
+        const key = getTodayMatrixKey();
+        let data = {};
+        try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
+        document.getElementById('matrix-do-now').value = data.doNow || '';
+        document.getElementById('matrix-do-later').value = data.doLater || '';
+        document.getElementById('matrix-delegate').value = data.delegate || '';
+        document.getElementById('matrix-delete').value = data.delete || '';
+    }
+    ['matrix-do-now','matrix-do-later','matrix-delegate','matrix-delete'].forEach(id => {
+        const area = document.getElementById(id);
+        if (!area) return;
+        area.ondragover = function(e) { e.preventDefault(); area.style.background = '#d0f0ff'; };
+        area.ondragleave = function() { area.style.background = ''; };
+        area.ondrop = function(e) {
+            e.preventDefault();
+            area.style.background = '';
+            const idx = e.dataTransfer.getData('text/plain');
+            const key = getTodayKey();
+            let data = {};
+            try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
+            if (!Array.isArray(data.todos)) data.todos = [];
+            const task = data.todos[idx];
+            if (!task) return;
+            // Append task text to the textarea, each on a new line
+            if (area.value) area.value += '\n';
+            area.value += task.text;
+            // Remove from To-Do after dropping:
+            data.todos.splice(idx, 1);
+            localStorage.setItem(key, JSON.stringify(data));
+            saveMatrix();
+            loadDailyPlanner();
+        };
+    });
+    document.addEventListener('DOMContentLoaded', loadMatrix);
+});
+
+// Show today's date in dd-mm-yy format
+function getTodayDateString() {
+    const d = new Date();
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const yy = String(d.getFullYear()).slice(-2);
+    return `${dd}-${mm}-${yy}`;
+}
+function updateTodoDate() {
+    var dateSpan = document.getElementById('todoDate');
+    if (dateSpan) dateSpan.textContent = getTodayDateString();
+}
+
+;
+</script>
+</body>
+</html>
