@@ -194,7 +194,7 @@
         }
         /* Planner Page */
         #plannerPage {
-            background-image: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1200&q=80'); /* Example: mountain/goal image */
+            background-image: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1200&q=80');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -213,7 +213,7 @@
             content: "";
             position: absolute;
             inset: 0;
-            background: rgba(255,255,255,0.70); /* Optional: white overlay for readability */
+            background: rgba(255,255,255,0.70);
             z-index: 0;
         }
         .planner-tabs {
@@ -384,6 +384,43 @@
             position: relative;
             z-index: 1;
         }
+        /* Add this to your existing CSS section */
+#moodTracker button {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin: 0 2px;
+}
+
+#moodTracker button:hover {
+    transform: scale(1.1);
+    border-color: #00A7B5;
+}
+
+/* Responsive styling for mobile */
+@media (max-width: 700px) {
+    #weeklyTab form {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+    #weeklyTab form > div {
+        display: block !important;
+        width: 100% !important;
+    }
+    #weeklyTab form label {
+        margin-bottom: 4px !important;
+    }
+    #weeklyTab textarea {
+        min-height: 40px !important;
+        font-size: 1rem !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -396,6 +433,7 @@
             <a href="#" id="navWelcome">Home</a>
             <a href="#" id="navAbout">About</a>
             <a href="#" id="navPlanner">Planner</a>
+            <a href="#" id="navPomodoro">Pomodoro</a>
             <a href="#" id="navContact">Contact</a>
         </div>
         <div style="display: flex; gap: 6px;">
@@ -450,7 +488,7 @@
                 <button id="plannerTabCalendar" class="planner-tab-btn active" type="button">2025 Calendar</button>
                 <button id="plannerTabGoals" class="planner-tab-btn" type="button">Goals</button>
                 <button id="plannerTabDaily" class="planner-tab-btn" type="button">Daily Planner</button>
-                <button id="plannerTabWeekly" class="planner-tab-btn" type="button">Weekly Review</button>
+                
             </div>
             <!-- START 2025 Calendar Tab -->
             <div id="calendarTab" class="planner-tab" style="background:#fff; border-radius:18px; box-shadow:0 4px 16px rgba(0,51,160,0.08); padding:24px; min-height:320px;">
@@ -486,7 +524,7 @@
             <!-- END Goals Tab -->
 
             <!-- START Daily Planner Tab -->
-<div id="dailyPlannerTab" class="planner-tab" style="display:none; background:#fff; border-radius:18px; box-shadow:0 4px 16px rgba(0,51,160,0.08); padding:24px; min-height:320px;">
+<div id="dailyTab" class="planner-tab" style="display:none; background:#fff; border-radius:18px; box-shadow:0 4px 16px rgba(0,51,160,0.08); padding:24px; min-height:320px;">
     <h3 style="color:#0033A0; display:flex; align-items:center; gap:18px;">
         To‑Do List
         <span id="todoDate" style="font-size:1rem; color:#00A7B5; font-weight:normal;"></span>
@@ -504,7 +542,7 @@
             style="flex:1; padding:8px; border:1px solid #00A7B5; border-radius:6px;">
         <button id="addTaskBtn" type="submit"
             style="background:#00A7B5; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer;">
-            Add Task
+
         </button>
     </form>
     <div id="dailyTaskList"></div>
@@ -544,43 +582,23 @@
             </form>
         </div>
         <!-- Mood Tracker -->
-        <div id="moodTrackerBox" style="flex:1; min-width:160px;">
-            <label style="color:#0033A0; font-weight:bold; font-size:1.1rem;">Today's Mood</label>
-            <div id="moodTracker" style="margin-top:10px; display:flex; gap:10px;">
-                <button type="button" data-mood="😀" style="font-size:1.7rem; background:none; border:none; cursor:pointer;">😀</button>
-                <button type="button" data-mood="🙂" style="font-size:1.7rem; background:none; border:none; cursor:pointer;">🙂</button>
-                <button type="button" data-mood="😐" style="font-size:1.7rem; background:none; border:none; cursor:pointer;">😐</button>
-                <button type="button" data-mood="😔" style="font-size:1.7rem; background:none; border:none; cursor:pointer;">😔</button>
-                <button type="button" data-mood="😡" style="font-size:1.7rem; background:none; border:none; cursor:pointer;">😡</button>
+        <div id="moodTracker" style="margin-top:10px; display:flex; gap:10px;">
+    <button type="button" data-mood="😀">😀</button>
+    <button type="button" data-mood="🙂">🙂</button>
+    <button type="button" data-mood="😐">😐</button>
+    <button type="button" data-mood="😔">😔</button>
+    <button type="button" data-mood="😡">😡</button>
+</div>
+<!-- Show selected mood (kept empty, but outside the button row) -->
+<div id="selectedMood" style="margin-top:10px; font-size:2rem; text-align:center;"></div>
             </div>
         </div>
     </div>
 </div>
 <!-- END Daily Planner Tab -->
-
-            <!-- START Weekly Review Tab -->
-            <div id="weeklyReviewTab" class="planner-tab" style="display:none; background:#fff; border-radius:18px; box-shadow:0 4px 16px rgba(0,51,160,0.08); padding:24px; min-height:320px;">
-                <h3 style="color:#0033A0; font-size:1.5rem; font-weight:bold; margin-bottom:18px; text-align:center;">Weekly Review</h3>
-                <form id="weeklyReviewForm" autocomplete="off">
-                    <div style="margin-bottom:18px;">
-                        <label style="color:#0033A0; font-weight:bold;">Things That Went Well</label>
-                        <input type="text" id="well1" placeholder="Thing 1" style="width:100%; margin-bottom:8px; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;">
-                        <input type="text" id="well2" placeholder="Thing 2" style="width:100%; margin-bottom:8px; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;">
-                        <input type="text" id="well3" placeholder="Thing 3" style="width:100%; margin-bottom:8px; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;">
-                    </div>
-                    <div style="margin-bottom:18px;">
-                        <textarea id="improve" placeholder="1 Thing to Improve" rows="2" style="width:100%; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;"></textarea>
-                    </div>
-                    <div style="margin-bottom:18px;">
-                        <textarea id="actionPlan" placeholder="Action Plan for Improvement" rows="2" style="width:100%; padding:10px; border-radius:8px; border:1px solid #00A7B5; font-size:1rem;"></textarea>
-                    </div>
-                </form>
-            </div>
-            <!-- END Weekly Review Tab -->
-        </div>
     </div>
-    <!-- END Planner Page -->
-
+</div>
+<!-- END Planner Page -->
     <!-- START Contact Page -->
     <div id="contactPage" style="display:none; background:#fff; min-height:100vh; position:absolute; top:0; left:0; width:100vw; z-index:20;">
         <button class="back-btn" id="contactBackBtn" type="button">&larr; Back</button>
@@ -622,6 +640,27 @@
     </div>
     <!-- END Login Page -->
 
+    <!-- Pomodoro Main Page -->
+    <div id="pomodoroPage"
+     style="display:none; background: url('flowers.jpg') center/cover no-repeat, #fff; min-height:100vh; position:absolute; top:0; left:0; width:100vw; z-index:20;">
+    <button class="back-btn" id="pomodoroBackBtn" type="button">&larr; Back</button>
+    <div style="max-width:600px; margin:60px auto 0 auto; background:rgba(255,255,255,0.85); border-radius:18px; box-shadow:0 4px 16px rgba(0,51,160,0.08); padding:32px 24px;">
+        <h2 style="color:#0033A0; font-size:2rem; font-weight:bold; margin-bottom:24px;">Pomodoro Timer</h2>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:24px; background:rgba(255,255,255,0.7); border-radius:12px; padding:16px;">
+            <div id="pomodoroModeBtns" style="display:flex; gap:16px;">
+                <button id="pomodoroWorkBtn" class="planner-tab-btn active" type="button">Work</button>
+                <button id="pomodoroBreakBtn" class="planner-tab-btn" type="button">Break</button>
+            </div>
+            <div id="pomodoroDisplay" style="font-size:3.5rem; color:#00A7B5; font-weight:bold; letter-spacing:2px; margin:24px 0;">25:00</div>
+            <div style="display:flex; gap:18px;">
+                <button id="pomodoroStartBtn" class="planner-tab-btn" type="button">Start</button>
+                <button id="pomodoroPauseBtn" class="planner-tab-btn" type="button">Pause</button>
+                <button id="pomodoroResetBtn" class="planner-tab-btn" type="button">Reset</button>
+            </div>
+            <audio id="pomodoroSound" src="https://cdn.pixabay.com/audio/2022/07/26/audio_124bfae5b6.mp3" muted></audio>
+        </div>
+    </div>
+</div>
     <script>
 // --- Main App Logic ---
 document.addEventListener('DOMContentLoaded', function () {
@@ -643,7 +682,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         [
             'welcomePage', 'aboutPage', 'plannerPage', 'contactPage',
-            'signupPage', 'loginPage'
+            'signupPage', 'loginPage', 'pomodoroPage' // <-- add pomodoroPage here
         ].forEach(id => {
             let el = document.getElementById(id);
             if (el) el.style.display = 'none';
@@ -657,6 +696,7 @@ document.addEventListener('DOMContentLoaded', function () {
             logoutBtn.style.display = (localStorage.getItem('userLoggedIn') === 'true') ? 'inline-block' : 'none';
         }
     }
+    window.showPage = showPage;
 
     // --- Nav bar event listeners ---
     document.getElementById('navWelcome').onclick = function(e) {
@@ -669,9 +709,16 @@ document.addEventListener('DOMContentLoaded', function () {
         setActiveNav(1);
         showPage('aboutPage');
     };
+    document.getElementById('navPlanner').onclick = plannerNavLogic;
+    document.getElementById('navPomodoro').onclick = function(e) {
+        e.preventDefault();
+        setActiveNav(4); // Adjust index if needed
+        showPage('pomodoroPage');
+        loadPomodoro(); // <-- Add this line
+    };
     document.getElementById('navContact').onclick = function(e) {
         e.preventDefault();
-        setActiveNav(3);
+        setActiveNav(5);
         showPage('contactPage');
     };
 
@@ -707,7 +754,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- Back Button ---
     [
         'aboutBackBtn', 'plannerBackBtn', 'contactBackBtn',
-        'signupBackBtn', 'loginBackBtn'
+        'signupBackBtn', 'loginBackBtn', 'pomodoroBackBtn'
     ].forEach(function(id) {
         let btn = document.getElementById(id);
         if (btn) {
@@ -797,52 +844,38 @@ updateLogoutBtn();
 
 
     // --- Planner Tabs ---
-    function showPlannerTab(tabName) {
-        // Hide all planner tabs
-        ['calendarTab', 'goalsTab', 'dailyPlannerTab', 'weeklyReviewTab'].forEach(id => {
-            let el = document.getElementById(id);
-            if (el) el.style.display = 'none';
-        });
-        // Remove .active from all tab buttons
-        ['plannerTabCalendar', 'plannerTabGoals', 'plannerTabDaily', 'plannerTabWeekly'].forEach(id => {
-            let btn = document.getElementById(id);
-            if (btn) btn.classList.remove('active');
-        });
+    // Tab switching logic
+function showPlannerTab(tabName) {
+    document.querySelectorAll('.planner-tab').forEach(tab => {
+        tab.style.display = 'none';
+        tab.classList.remove('active');
+    });
+    document.querySelectorAll('.planner-tab-btn').forEach(btn => btn.classList.remove('active'));
 
-        // Show correct tab and set .active
-        if (tabName === 'calendar') {
+    switch(tabName) {
+        case 'calendar':
             document.getElementById('calendarTab').style.display = 'block';
+            document.getElementById('calendarTab').classList.add('active');
             document.getElementById('plannerTabCalendar').classList.add('active');
             render2025Calendar();
-        } else if (tabName === 'goals') {
+            break;
+        case 'goals':
             document.getElementById('goalsTab').style.display = 'block';
+            document.getElementById('goalsTab').classList.add('active');
             document.getElementById('plannerTabGoals').classList.add('active');
-            renderGoals();
-        } else if (tabName === 'dailyPlanner') {
-            document.getElementById('dailyPlannerTab').style.display = 'block';
+            break;
+        case 'daily':
+            document.getElementById('dailyTab').style.display = 'block';
+            document.getElementById('dailyTab').classList.add('active');
             document.getElementById('plannerTabDaily').classList.add('active');
-            loadDailyPlanner();
-        } else if (tabName === 'weeklyReview') {
-            document.getElementById('weeklyReviewTab').style.display = 'block';
-            document.getElementById('plannerTabWeekly').classList.add('active');
-            loadWeeklyReview();
-        }
+            break;
     }
-    window.showPlannerTab = showPlannerTab;
-
-    document.getElementById('plannerTabCalendar').onclick = function() {
-        showPlannerTab('calendar');
-    };
-    document.getElementById('plannerTabGoals').onclick = function() {
-        showPlannerTab('goals');
-    };
-    document.getElementById('plannerTabDaily').onclick = function() {
-        showPlannerTab('dailyPlanner');
-    };
-    document.getElementById('plannerTabWeekly').onclick = function() {
-        showPlannerTab('weeklyReview');
-    };
-
+}
+window.showPlannerTab = showPlannerTab;
+// (Keep these for other tabs)
+document.getElementById('plannerTabCalendar').onclick = function() { showPlannerTab('calendar'); };
+document.getElementById('plannerTabGoals').onclick = function() { showPlannerTab('goals'); };
+document.getElementById('plannerTabDaily').onclick = function() { showPlannerTab('daily'); };
     // --- Goals logic ---
     function getGoals() {
         try { return JSON.parse(localStorage.getItem('plannerGoals')) || []; }
@@ -993,14 +1026,15 @@ updateLogoutBtn();
         const key = getTodayKey();
         let data = {};
         try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
-        // Load fields if present
-        if (document.getElementById('mainFocus')) document.getElementById('mainFocus').value = data.mainFocus || '';
-        if (document.getElementById('highlight')) document.getElementById('highlight').value = data.highlight || '';
-        if (document.getElementById('learned')) document.getElementById('learned').value = data.learned || '';
-        if (document.getElementById('gratitude')) document.getElementById('gratitude').value = data.gratitude || '';
+        
         renderTodos(data.todos || []);
         loadBrainDump();
-    loadMood(); 
+        loadMood();
+        
+        // Initialize mood tracker buttons
+        document.querySelectorAll('#moodTracker button').forEach(btn => {
+            btn.onclick = function() { saveMood(this.dataset.mood); };
+        });
     }
 
     function renderTodos(todos) {
@@ -1144,15 +1178,12 @@ function renderBrainDump(items) {
 
         // Delete button
         const delBtn = document.createElement('button');
-        delBtn.type = 'button';
-        delBtn.innerHTML = '✕';
-        delBtn.setAttribute('aria-label', 'Delete');
+        delBtn.textContent = '✕';
         delBtn.style.background = '#00A7B5';
         delBtn.style.color = '#fff';
         delBtn.style.border = 'none';
-        delBtn.style.borderRadius = '6px';
-        delBtn.style.padding = '2px 10px';
-        delBtn.style.fontSize = '1rem';
+        delBtn.style.borderRadius = '4px';
+        delBtn.style.padding = '2px 8px';
         delBtn.style.cursor = 'pointer';
         delBtn.onclick = function() {
             items.splice(idx, 1);
@@ -1192,59 +1223,39 @@ function saveMood(mood) {
     try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
     data.mood = mood;
     localStorage.setItem(key, JSON.stringify(data));
-    document.getElementById('selectedMood').textContent = mood;
+    showMood(mood);
 }
+
+function showMood(mood) {
+    document.querySelectorAll('#moodTracker button').forEach(btn => {
+        if (btn.dataset.mood === mood) {
+            btn.style.setProperty('background', '#e0f7fa', 'important');
+            btn.style.setProperty('outline', '2px solid #00A7B5', 'important');
+            btn.style.setProperty('filter', 'none', 'important');
+            btn.style.setProperty('opacity', '1', 'important');
+            btn.style.setProperty('transition', 'all 0.2s', 'important');
+        } else {
+            btn.style.setProperty('background', 'none', 'important');
+            btn.style.setProperty('outline', 'none', 'important');
+            btn.style.setProperty('filter', 'grayscale(1)', 'important');
+            btn.style.setProperty('opacity', '0.5', 'important');
+            btn.style.setProperty('transition', 'all 0.2s', 'important');
+        }
+    });
+    // No text display
+    const moodDiv = document.getElementById('selectedMood');
+    if (moodDiv) moodDiv.textContent = '';
+}
+
+// Add this as a separate function after showMood
 function loadMood() {
     const key = getTodayKey();
     let data = {};
     try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
-    document.getElementById('selectedMood').textContent = data.mood || '';
+    showMood(data.mood);
 }
-document.querySelectorAll('#moodTracker button').forEach(btn => {
-    btn.onclick = function() { saveMood(this.dataset.mood); };
-});
-// --- Weekly Review logic ---
-function getWeekKey() {
-    const d = new Date();
-    // ISO week number
-    const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-        const dayNum = date.getUTCDay() || 7;
-        date.setUTCDate(date.getUTCDate() + 4 - dayNum);
-        const yearStart = new Date(Date.UTC(date.getUTCFullYear(),0,1));
-        const weekNum = Math.ceil((((date - yearStart) / 86400000) + 1)/7);
-        return 'weeklyReview_' + date.getUTCFullYear() + '_W' + weekNum;
-    }
-    function saveWeeklyReview() {
-        const key = getWeekKey();
-        const data = {
-            well1: document.getElementById('well1').value,
-            well2: document.getElementById('well2').value,
-            well3: document.getElementById('well3').value,
-            improve: document.getElementById('improve').value,
-            actionPlan: document.getElementById('actionPlan').value
-        };
-        localStorage.setItem(key, JSON.stringify(data));
-    }
-    function loadWeeklyReview() {
-        const key = getWeekKey();
-        let data = {};
-        try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
-        document.getElementById('well1').value = data.well1 || '';
-        document.getElementById('well2').value = data.well2 || '';
-        document.getElementById('well3').value = data.well3 || '';
-        document.getElementById('improve').value = data.improve || '';
-        document.getElementById('actionPlan').value = data.actionPlan || '';
-    }
-    // Auto-save on input/textarea change
-    ['well1','well2','well3','improve','actionPlan'].forEach(id=>{
-        document.getElementById(id).addEventListener('input', saveWeeklyReview);
-    });
-    document.getElementById('weeklyReviewForm').onsubmit = function(e) {
-        e.preventDefault();
-        saveWeeklyReview();
-    };
 
-    // --- Eisenhower Matrix logic ---
+// --- Eisenhower Matrix logic ---
     function getTodayMatrixKey() {
         const d = new Date();
         return 'eisenhowerMatrix_' + d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
@@ -1269,30 +1280,31 @@ function getWeekKey() {
         document.getElementById('matrix-delete').value = data.delete || '';
     }
     ['matrix-do-now','matrix-do-later','matrix-delegate','matrix-delete'].forEach(id => {
-        const area = document.getElementById(id);
-        if (!area) return;
-        area.ondragover = function(e) { e.preventDefault(); area.style.background = '#d0f0ff'; };
-        area.ondragleave = function() { area.style.background = ''; };
-        area.ondrop = function(e) {
-            e.preventDefault();
-            area.style.background = '';
-            const idx = e.dataTransfer.getData('text/plain');
-            const key = getTodayKey();
-            let data = {};
-            try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
-            if (!Array.isArray(data.todos)) data.todos = [];
-            const task = data.todos[idx];
-            if (!task) return;
-            // Append task text to the textarea, each on a new line
-            if (area.value) area.value += '\n';
-            area.value += task.text;
-            // Remove from To-Do after dropping:
-            data.todos.splice(idx, 1);
-            localStorage.setItem(key, JSON.stringify(data));
-            saveMatrix();
-            loadDailyPlanner();
-        };
-    });
+    const area = document.getElementById(id);
+    if (!area) return;
+    area.ondragover = function(e) { e.preventDefault(); area.style.background = '#d0f0ff'; };
+    area.ondragleave = function() { area.style.background = ''; };
+    area.ondrop = function(e) {
+        e.preventDefault();
+        area.style.background = '';
+        const idx = e.dataTransfer.getData('text/plain');
+        // Get today's tasks
+        const key = getTodayKey();
+        let data = {};
+        try { data = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
+        if (!Array.isArray(data.todos)) data.todos = [];
+        // Get the task and remove from todos
+        const task = data.todos.splice(idx, 1)[0];
+        // Add task text to matrix area (with icon if present)
+        if (task) {
+            area.value += (area.value ? '\n' : '') + (task.icon ? task.icon + ' ' : '') + task.text;
+        }
+        // Save changes
+        localStorage.setItem(key, JSON.stringify(data));
+        saveMatrix();
+        renderTodos(data.todos);
+    };
+});
     document.addEventListener('DOMContentLoaded', loadMatrix);
 });
 
@@ -1310,6 +1322,129 @@ function updateTodoDate() {
 }
 
 ;
-</script>
+// --- Pomodoro Timer Logic with Persistence ---
+// (Lines 1467–1540)
+let pomoTimer = null;
+let pomoMode = 'work'; // 'work' or 'break'
+let pomoTimeLeft = 25 * 60; // seconds
+const POMO_WORK = 25 * 60;
+const POMO_BREAK = 5 * 60;
+
+// Save Pomodoro state to localStorage
+function savePomoState() {
+    localStorage.setItem('pomoState', JSON.stringify({
+        mode: pomoMode,
+        timeLeft: pomoTimeLeft,
+        running: !!pomoTimer,
+        lastUpdate: Date.now()
+    }));
+}
+
+// Load Pomodoro state from localStorage
+function loadPomoState() {
+    try {
+        const state = JSON.parse(localStorage.getItem('pomoState'));
+        if (!state) return false;
+        pomoMode = state.mode || 'work';
+        // Calculate elapsed time if timer was running
+        if (state.running && state.lastUpdate) {
+            const elapsed = Math.floor((Date.now() - state.lastUpdate) / 1000);
+            pomoTimeLeft = Math.max(0, (state.timeLeft || POMO_WORK) - elapsed);
+        } else {
+            pomoTimeLeft = state.timeLeft || (pomoMode === 'work' ? POMO_WORK : POMO_BREAK);
+        }
+        return !!state.running;
+    } catch {
+        return false;
+    }
+}
+
+function updatePomodoroDisplay() {
+    const min = String(Math.floor(pomoTimeLeft / 60)).padStart(2, '0');
+    const sec = String(pomoTimeLeft % 60).padStart(2, '0');
+    document.getElementById('pomodoroDisplay').textContent = `${min}:${sec}`;
+}
+
+function switchPomodoroMode(mode) {
+    pomoMode = mode;
+    if (pomoTimer) clearInterval(pomoTimer);
+    pomoTimer = null;
+    pomoTimeLeft = (mode === 'work') ? POMO_WORK : POMO_BREAK;
+    updatePomodoroDisplay();
+    document.getElementById('pomodoroWorkBtn').classList.toggle('active', mode === 'work');
+    document.getElementById('pomodoroBreakBtn').classList.toggle('active', mode === 'break');
+    savePomoState();
+}
+
+function startPomodoro() {
+    if (pomoTimer) return;
+    pomoTimer = setInterval(() => {
+        if (pomoTimeLeft >  0) {
+            pomoTimeLeft--;
+            updatePomodoroDisplay();
+            savePomoState();
+        } else {
+            clearInterval(pomoTimer);
+            pomoTimer = null;
+            document.getElementById('pomodoroSound').play().catch(()=>{});
+            if (pomoMode === 'work') {
+                switchPomodoroMode('break');
+                startPomodoro();
+            } else {
+                switchPomodoroMode('work');
+                                             }
+            savePomoState();
+        }
+    }, 1000);
+    savePomoState();
+}
+
+function pausePomodoro() {
+    if (pomoTimer) {
+        savePomoState();
+    }
+}
+
+function resetPomodoro() {
+    if (pomoTimer) clearInterval(pomoTimer);
+    pomoTimer = null;
+    pomoTimeLeft = (pomoMode === 'work') ? POMO_WORK : POMO_BREAK;
+    updatePomodoroDisplay();
+    savePomoState();
+}
+
+function loadPomodoro() {
+    // Always clear any running timer when switching to Pomodoro tab
+    if (pomoTimer) {
+        clearInterval(pomoTimer);
+        pomoTimer = null;
+             }
+
+    let wasRunning = loadPomoState();
+    updatePomodoroDisplay();
+    document.getElementById('pomodoroWorkBtn').classList.toggle('active', pomoMode === 'work');
+    document.getElementById('pomodoroBreakBtn').classList.toggle('active', pomoMode === 'break');
+    // "Prime" the audio on first user interaction
+    let primed = false;
+    function primeAudio() {
+        if (!primed) {
+            const audio = document.getElementById('pomodoroSound');
+            audio.muted = false;
+            audio.play().catch(()=>{});
+            audio.pause();
+            audio.currentTime = 0;
+            primed = true;
+        }
+    }
+   
+    document.getElementById('pomodoroStartBtn').onclick = function() { primeAudio(); startPomodoro(); };
+    document.getElementById('pomodoroPauseBtn').onclick = pausePomodoro;
+    document.getElementById('pomodoroResetBtn').onclick = resetPomodoro;
+    document.getElementById('pomodoroWorkBtn').onclick = function() { primeAudio(); switchPomodoroMode('work'); };
+       document.getElementById('pomodoroBreakBtn').onclick = function() { primeAudio(); switchPomodoroMode('break'); };
+    // If timer was running, resume it
+    if (wasRunning && pomoTimeLeft > 0) startPomodoro();
+}
+    </script>
 </body>
 </html>
