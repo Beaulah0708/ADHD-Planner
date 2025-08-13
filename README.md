@@ -1,4 +1,4 @@
-**Live Demo:** [Click Here] https://github.com/Beaulah0708/ADHD-Planner/deployments/github-pages   
+**Live Demo:** [Click Here] https://beaulah0708.github.io/ADHD-Planner/ 
 
 ## 📌 Overview
 ADHD Planner is a simple, distraction‑free productivity tool designed to help users set goals, plan their day, and track progress effectively.  
@@ -10,7 +10,8 @@ This interim version includes a **Goals tab** and **Daily Planner** with local s
 - **Navigation System** – Home, About, Planner tabs with conditional login/signup.
 - **User Authentication** – Signup, login, and "Remember Me" functionality using localStorage.
 - **Goals Tab** – Add, edit, delete goals with descriptions and action plans.
-- **Daily Planner** –  
+- **Daily Planner** –
+- **Pomodoro**
   - Main focus for the day  
   - To‑do list with checkboxes & delete option  
   - Brain Dump and modd tracker  
@@ -27,6 +28,6 @@ This interim version includes a **Goals tab** and **Daily Planner** with local s
 ---
 
 ## 📅 Next Steps
-- Add Weekly Planner and Weekly Review
+- Add Weekly Planner and Weekly Review, Dashboard
 - Enhance UI/UX with improved layout designs
 - Implement export/print options for planners
